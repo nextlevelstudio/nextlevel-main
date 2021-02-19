@@ -487,6 +487,10 @@ body.projects {
         background: black; }
     body.projects .all ul .white .overlay {
       background: rgba(255, 255, 255, 0.6); }
+      body.projects .all ul .white .overlay h3 {
+        color: #2f2f2f; }
+      body.projects .all ul .white .overlay ul li {
+        color: #2f2f2f; }
       body.projects .all ul .white .overlay:hover {
         background: white; }
   body.projects footer {
