@@ -32,10 +32,13 @@ body.main {
                 align-items: center;
                 list-style: none;
                 li {
-                    margin-left: 2vw;
+                    padding-left: 2vw;
                     font-size: 1vw;
                     &.white {
                         color: white;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
                         a {
                             color: white;
                             &::before {
@@ -88,6 +91,23 @@ body.main {
             position: absolute;
             top:0;
             right:0;
+            overflow: hidden;
+            canvas {
+                opacity: 0;
+                width: 100% !important;
+                height: 100% !important;
+                transition: all 1s;
+            }
+            &:hover {
+                canvas {
+                    opacity: 1;
+                }
+            }
+            &.hover {
+                canvas {
+                    opacity: 1;
+                }
+            }
         }
         ul {
             margin-left: 1.5vw;
@@ -101,6 +121,7 @@ body.main {
             bottom: 2vh;
             right: 7vw;
             z-index: 1;
+            pointer-events: none;
             span {
                 color: white;
             }
@@ -869,9 +890,5 @@ body.contact {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
+    }   
 }
-canvas {
-    width: 100% !important;
-    height: 100% !important;
-}  

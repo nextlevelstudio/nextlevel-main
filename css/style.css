@@ -29,10 +29,13 @@ body.main {
         align-items: center;
         list-style: none; }
         body.main header nav ul li {
-          margin-left: 2vw;
+          padding-left: 2vw;
           font-size: 1vw; }
           body.main header nav ul li.white {
-            color: white; }
+            color: white;
+            height: 100%;
+            display: flex;
+            align-items: center; }
             body.main header nav ul li.white a {
               color: white; }
               body.main header nav ul li.white a::before {
@@ -71,7 +74,17 @@ body.main {
       background-color: #2C2C2C;
       position: absolute;
       top: 0;
-      right: 0; }
+      right: 0;
+      overflow: hidden; }
+      body.main header .hidden1 canvas {
+        opacity: 0;
+        width: 100% !important;
+        height: 100% !important;
+        transition: all 1s; }
+      body.main header .hidden1:hover canvas {
+        opacity: 1; }
+      body.main header .hidden1.hover canvas {
+        opacity: 1; }
     body.main header ul {
       margin-left: 1.5vw;
       list-style: none; }
@@ -82,7 +95,8 @@ body.main {
       position: absolute;
       bottom: 2vh;
       right: 7vw;
-      z-index: 1; }
+      z-index: 1;
+      pointer-events: none; }
       body.main header h1 span {
         color: white; }
   body.main .second {
@@ -681,7 +695,3 @@ body.contact {
     display: flex;
     align-items: center;
     justify-content: center; }
-
-canvas {
-  width: 100% !important;
-  height: 100% !important; }
