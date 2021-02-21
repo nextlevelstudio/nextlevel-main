@@ -250,6 +250,24 @@ body.main {
                     width: 12.4vw;
                     background: #00E0F1;
                     margin-left: -12.4vw;
+                    overflow: hidden;
+                    canvas {
+                        opacity: 0;
+                        width: 300% !important;
+                        height: 100% !important;
+                        margin-left: -200%;
+                        transition: all 1s;
+                    }
+                    &:hover {
+                        canvas {
+                            opacity: 1;
+                        }
+                    }
+                    &.hover {
+                        canvas {
+                            opacity: 1;
+                        }
+                    }
                 }
                 .cnt {
                     padding: 5vh 5vw;

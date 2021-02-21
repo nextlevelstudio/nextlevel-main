@@ -197,7 +197,18 @@ body.main {
           height: 100%;
           width: 12.4vw;
           background: #00E0F1;
-          margin-left: -12.4vw; }
+          margin-left: -12.4vw;
+          overflow: hidden; }
+          body.main .third .middle .lfx .top canvas {
+            opacity: 0;
+            width: 300% !important;
+            height: 100% !important;
+            margin-left: -200%;
+            transition: all 1s; }
+          body.main .third .middle .lfx .top:hover canvas {
+            opacity: 1; }
+          body.main .third .middle .lfx .top.hover canvas {
+            opacity: 1; }
         body.main .third .middle .lfx .cnt {
           padding: 5vh 5vw; }
           body.main .third .middle .lfx .cnt h2 {
