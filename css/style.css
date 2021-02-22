@@ -9,7 +9,7 @@ section {
   clear: both; }
 
 body.main {
-  background-image: linear-gradient(90deg, white 8%, #f1f1f1 8%, #f1f1f1 77%, white 77%);
+  background-image: linear-gradient(90deg, white 7.5%, #f1f1f1 7.5%, #f1f1f1 77%, white 77%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: top 16vh left; }
@@ -29,10 +29,13 @@ body.main {
         align-items: center;
         list-style: none; }
         body.main header nav ul li {
-          margin-left: 2vw;
+          padding-left: 2vw;
           font-size: 1vw; }
           body.main header nav ul li.white {
-            color: white; }
+            color: white;
+            height: 100%;
+            display: flex;
+            align-items: center; }
             body.main header nav ul li.white a {
               color: white; }
               body.main header nav ul li.white a::before {
@@ -71,7 +74,17 @@ body.main {
       background-color: #2c2c2c;
       position: absolute;
       top: 0;
-      right: 0; }
+      right: 0;
+      overflow: hidden; }
+      body.main header .hidden1 canvas {
+        opacity: 0;
+        width: 100% !important;
+        height: 100% !important;
+        transition: all 1s; }
+      body.main header .hidden1:hover canvas {
+        opacity: 1; }
+      body.main header .hidden1.hover canvas {
+        opacity: 1; }
     body.main header ul {
       margin-left: 1.5vw;
       list-style: none; }
@@ -82,7 +95,8 @@ body.main {
       position: absolute;
       bottom: 2vh;
       right: 13vw;
-      z-index: 1; }
+      z-index: 1;
+      pointer-events: none; }
       body.main header h1 span {
         color: white; }
   body.main .second {
@@ -149,8 +163,7 @@ body.main {
       width: 20%; }
     body.main .third .middle {
       width: 53%;
-      height: fit-content;
-      padding-bottom: 30vh; }
+      height: fit-content; }
       body.main .third .middle div.img {
         position: relative; }
         body.main .third .middle div.img img {
@@ -183,7 +196,18 @@ body.main {
           height: 100%;
           width: 12.4vw;
           background: #00e0f1;
-          margin-left: -12.4vw; }
+          margin-left: -12.4vw;
+          overflow: hidden; }
+          body.main .third .middle .lfx .top canvas {
+            opacity: 0;
+            width: 300% !important;
+            height: 100% !important;
+            margin-left: -200%;
+            transition: all 1s; }
+          body.main .third .middle .lfx .top:hover canvas {
+            opacity: 1; }
+          body.main .third .middle .lfx .top.hover canvas {
+            opacity: 1; }
         body.main .third .middle .lfx .cnt {
           padding: 5vh 5vw; }
           body.main .third .middle .lfx .cnt h2 {
@@ -197,9 +221,11 @@ body.main {
             font-size: 1.3vw;
             color: #2c2c2c;
             font-weight: 200;
-            padding-bottom: 10px; }
+            padding-bottom: 35px; }
+            body.main .third .middle .lfx .cnt p strong {
+              font-weight: 400; }
           body.main .third .middle .lfx .cnt p:nth-of-type(1) {
-            font-weight: 400; }
+            font-size: 1.8vw; }
     body.main .third .right {
       width: 27%;
       background: #2c2c2c; }
@@ -207,11 +233,10 @@ body.main {
     display: flex;
     position: relative;
     z-index: 1;
-    margin-top: -15vh;
-    float: right;
-    padding-bottom: 10vh; }
+    padding-bottom: 14vh;
+    background-image: linear-gradient(90deg, white 7.5%, #f1f1f1 7.5%, #f1f1f1 73%, white 73%); }
     body.main .wwd h3 {
-      width: 15vw;
+      width: 21vw;
       height: 12vh;
       background: #25aed2;
       display: flex;
@@ -273,7 +298,7 @@ body.main {
           align-items: center;
           justify-content: center; }
   body.main .wpwu {
-    background: linear-gradient(to right, white 0%, white 77%, #000 77%, #f1f1f1 77%, #f1f1f1 100%);
+    background: linear-gradient(to right, white 0%, white 73%, #f1f1f1 73%, #f1f1f1 100%);
     min-height: 50vh; }
     body.main .wpwu h2 {
       font-size: 2.5vw;
@@ -282,10 +307,11 @@ body.main {
     body.main .wpwu div {
       width: 80%;
       margin: 0 auto;
-      padding: 8vh 3vw; }
+      padding: 10vh 3vw; }
     body.main .wpwu ul {
       display: flex;
-      flex-wrap: wrap; }
+      flex-wrap: wrap;
+      width: 80%; }
       body.main .wpwu ul h3 {
         font-size: 1.8vw;
         font-weight: 200; }
@@ -300,7 +326,6 @@ body.main {
     margin-right: 0;
     margin-left: auto;
     background: #2c2c2c;
-    margin-top: 15vh;
     padding: 40px 120px 20px 40px; }
     body.main .lcst div p {
       color: white;
@@ -340,11 +365,11 @@ body.main {
     height: 5vh;
     width: 100%;
     display: block;
-    background-image: linear-gradient(90deg, white 8%, #00e0f1 8%, #00e0f1 77%, #2c2c2c 77%); }
+    background-image: linear-gradient(90deg, white 7.5%, #00e0f1 7.5%, #00e0f1 77%, #2c2c2c 77%); }
   body.main footer {
     width: 100%;
     min-height: 20vh;
-    background-image: linear-gradient(90deg, #f1f1f1 8%, white 8%, white 100%);
+    background-image: linear-gradient(90deg, #f1f1f1 7.5%, white 7.5%, white 100%);
     display: flex;
     align-items: center;
     justify-content: center; }

@@ -13,8 +13,8 @@ section {
 body.main {
   background-image: linear-gradient(
     90deg,
-    white 8%,
-    #f1f1f1 8%,
+    white 7.5%,
+    #f1f1f1 7.5%,
     #f1f1f1 77%,
     rgb(255, 255, 255) 77%
   );
@@ -37,10 +37,13 @@ body.main {
         align-items: center;
         list-style: none;
         li {
-          margin-left: 2vw;
+          padding-left: 2vw;
           font-size: 1vw;
           &.white {
             color: white;
+            height: 100%;
+            display: flex;
+            align-items: center;
             a {
               color: white;
               &::before {
@@ -93,6 +96,23 @@ body.main {
       position: absolute;
       top: 0;
       right: 0;
+      overflow: hidden;
+      canvas {
+        opacity: 0;
+        width: 100% !important;
+        height: 100% !important;
+        transition: all 1s;
+      }
+      &:hover {
+        canvas {
+          opacity: 1;
+        }
+      }
+      &.hover {
+        canvas {
+          opacity: 1;
+        }
+      }
     }
     ul {
       margin-left: 1.5vw;
@@ -106,6 +126,7 @@ body.main {
       bottom: 2vh;
       right: 13vw;
       z-index: 1;
+      pointer-events: none;
       span {
         color: white;
       }
@@ -189,7 +210,7 @@ body.main {
     .middle {
       width: 53%;
       height: fit-content;
-      padding-bottom: 30vh;
+
       div {
         &.img {
           position: relative;
@@ -232,6 +253,24 @@ body.main {
           width: 12.4vw;
           background: #00e0f1;
           margin-left: -12.4vw;
+          overflow: hidden;
+          canvas {
+            opacity: 0;
+            width: 300% !important;
+            height: 100% !important;
+            margin-left: -200%;
+            transition: all 1s;
+          }
+          &:hover {
+            canvas {
+              opacity: 1;
+            }
+          }
+          &.hover {
+            canvas {
+              opacity: 1;
+            }
+          }
         }
         .cnt {
           padding: 5vh 5vw;
@@ -248,10 +287,13 @@ body.main {
             font-size: 1.3vw;
             color: #2c2c2c;
             font-weight: 200;
-            padding-bottom: 10px;
+            padding-bottom: 35px;
+            strong {
+              font-weight: 400;
+            }
           }
           p:nth-of-type(1) {
-            font-weight: 400;
+            font-size: 1.8vw;
           }
         }
       }
@@ -265,11 +307,16 @@ body.main {
     display: flex;
     position: relative;
     z-index: 1;
-    margin-top: -15vh;
-    float: right;
-    padding-bottom: 10vh;
+    padding-bottom: 14vh;
+    background-image: linear-gradient(
+      90deg,
+      white 7.5%,
+      #f1f1f1 7.5%,
+      #f1f1f1 73%,
+      white 73%
+    );
     h3 {
-      width: 15vw;
+      width: 21vw;
       height: 12vh;
       background: #25aed2;
       display: flex;
@@ -349,9 +396,8 @@ body.main {
     background: linear-gradient(
       to right,
       white 0%,
-      white 77%,
-      #000 77%,
-      #f1f1f1 77%,
+      white 73%,
+      #f1f1f1 73%,
       #f1f1f1 100%
     );
     min-height: 50vh;
@@ -363,11 +409,12 @@ body.main {
     div {
       width: 80%;
       margin: 0 auto;
-      padding: 8vh 3vw;
+      padding: 10vh 3vw;
     }
     ul {
       display: flex;
       flex-wrap: wrap;
+      width: 80%;
       h3 {
         font-size: 1.8vw;
         font-weight: 200;
@@ -387,7 +434,6 @@ body.main {
       margin-right: 0;
       margin-left: auto;
       background: #2c2c2c;
-      margin-top: 15vh;
       padding: 40px 120px 20px 40px;
       p {
         color: white;
@@ -439,8 +485,8 @@ body.main {
       display: block;
       background-image: linear-gradient(
         90deg,
-        white 8%,
-        #00e0f1 8%,
+        white 7.5%,
+        #00e0f1 7.5%,
         #00e0f1 77%,
         #2c2c2c 77%
       );
@@ -449,7 +495,12 @@ body.main {
   footer {
     width: 100%;
     min-height: 20vh;
-    background-image: linear-gradient(90deg, #f1f1f1 8%, white 8%, white 100%);
+    background-image: linear-gradient(
+      90deg,
+      #f1f1f1 7.5%,
+      white 7.5%,
+      white 100%
+    );
     display: flex;
     align-items: center;
     justify-content: center;

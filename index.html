@@ -63,7 +63,7 @@
                 <div class="bottom">
 
                 </div>
-                <img src="images/image1.png">
+                <img src="images/t2.jpg">
             </div>
         </div>
         <div class="right">
@@ -71,47 +71,63 @@
         </div>
         
     </section>
-    <section class="wwd">
-            <h3>Oferta</h3>
-            <div>
-                <h2>Pojedmij z nami współpracę</h2>
-                <ul>
-                    <li class="lg"><h4>Strony internetowe</h4><div class="icon"><div class="content"><img src=""></div></div></li>
-                    <li class="dg"><h4>Sklepy internetowy</h4><div class="icon"><div class="content"><img src=""></div></div></li>
-                    <li class="lg"><h4>Fotografia</h4><div class="icon"><div class="content"><img src=""></div></div></li>
-                    <li class="dg"><h4>Projekty graficzne</h4><div class="icon"><div class="content"><img src=""></div></div></li>
-                </ul>
-            </div>
-    </section>
     <section class="wpwu">
         <div>
             <h2>Co oferujemy?</h2>
             <ul>
                 <li>
                     <h3>Strony internetowe</h3>
-                    <p>Ask anyone, we love what we do. We’re passionate about our 
-                        craft and we’ve proven our ability to generate real results, helping clients to grow, attract and retain customers.</p>
+                    <p>Tworzymy profesjonalne, responsywne strony internetowe dostosowane do Twoich potrzeb. Dokładamy wszelkich starań, aby były one przyjazne dla wyszukiwarek, zoptymalizowane pod kątem SEO.</p>
                 </li>
                 <li>
-                    <h3>Sklepy internetowy</h3>
-                    <p>We’re passionate about our craft and we’ve proven our ability to generate real results, helping clients to grow,</p>
+                    <h3>Sklepy internetowe</h3>
+                    <p>Oferujemy spersonalizowane roziwązania e-commerce, dzięki którym twoja platforma zakupowa będzie odpowiadała potrzebom Twojego biznesu.<p>
                 </li>
                 <li>
                     <h3>Fotografia</h3>
-                    <p>We’re passionate about our craft and we’ve proven our ability to generate real results, helping clients to grow,</p>
+                    <p>Wykonujemy fotografie brandingową oraz projesjonalne sesje studyjne i produktowe - dzięki temu Twoja firma w sieci będzie bardziej wiarygodna i atrakcjyjna dla odbiorców.</p>
                 </li>
                 <li>
                     <h3>Projekty graficzne</h3>
-                    <p>Ask anyone, we love what we do. We’re passionate about our craft 
-                        and we’ve proven our ability to generate real results, helping clients to grow, attract and retain customers.</p>
+                    <p>Przygotowujemy projekty graficzne na potrzeby stron internetowych &#40;logotypy, banery&#41; oraz materiały drukowane takie jak ulotki, wizytówki, plakaty.  </p>
                 </li>
             </ul>
         </div>
     </section>
+    <section class="wwd">
+      <h3>Etapy.</h3>
+      <div>
+        <ul>
+          <li class="lg">
+            <h4>1. Analiza potrzeb</h4>
+            <div class="icon">
+              <div class="content"><img src=""></div>
+            </div>
+          </li>
+          <li class="dg">
+            <h4>2. Design i technologia</h4>
+            <div class="icon">
+              <div class="content"><img src=""></div>
+            </div>
+          </li>
+          <li class="lg">
+            <h4>3. Wdrożenie</h4>
+            <div class="icon">
+              <div class="content"><img src=""></div>
+            </div>
+          </li>
+          <li class="dg">
+            <h4>4. Wsparcie</h4>
+            <div class="icon">
+              <div class="content"><img src=""></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
     <section class="lcst">
         <div>
-            <p>Through a diverse mix of skills and experiences,<br> 
-                we bring insight and bold new ideas to any sector.</p>
+            <p>Poprzez innowacyjne podejście i nowatorskie rozwiązania, wnosimy ciekawe i odważne pomysły kreując Twój wizerunek w sieci.</p>
             <h2>Stwórzmy coś <strong>razem</strong>.</h2>
             <a href="">Napisz do nas</a>
         </div>
@@ -121,196 +137,6 @@
         <p>Copyrith (c) 2021 Next Level Studio</p>
     </footer>
     <script type="text/javascript" src="js/bundle.js"></script>
-  <script type="module">
-    const imgSize = [200, 200];
-
-    const vertex = `
-					attribute vec2 uv;
-					attribute vec2 position;
-					varying vec2 vUv;
-					void main() {
-							vUv = uv;
-							gl_Position = vec4(position, 0, 1);
-					}
-			`;
-    const fragment = `
-					precision highp float;
-					precision highp int;
-					uniform sampler2D tWater;
-					uniform sampler2D tFlow;
-					uniform float uTime;
-					varying vec2 vUv;
-					uniform vec4 res;
-
-					void main() {
-
-							// R and G values are velocity in the x and y direction
-							// B value is the velocity length
-							vec3 flow = texture2D(tFlow, vUv).rgb;
-
-							vec2 uv = .5 * gl_FragCoord.xy / res.xy ;
-							vec2 myUV = (uv - vec2(0.5))*res.zw + vec2(0.5);
-							myUV -= flow.xy * (0.15 * 0.7);
-
-							vec2 myUV2 = (uv - vec2(0.5))*res.zw + vec2(0.5);
-							myUV2 -= flow.xy * (0.125 * 0.7);
-
-							vec2 myUV3 = (uv - vec2(0.5))*res.zw + vec2(0.5);
-							myUV3 -= flow.xy * (0.10 * 0.7);
-
-							vec3 tex = texture2D(tWater, myUV).rgb;
-							vec3 tex2 = texture2D(tWater, myUV2).rgb;
-							vec3 tex3 = texture2D(tWater, myUV3).rgb;
-
-              gl_FragColor = vec4(tex.r, tex2.g, tex3.b, 1.0);
-					}
-			`;
-    {
-      const renderer = new ogl.Renderer({ dpr: 2 });
-      const gl = renderer.gl;
-      const hidden1 = document.querySelector('.hidden1');
-      hidden1.appendChild(gl.canvas);
-
-      // Variable inputs to control flowmap
-      let aspect = 1;
-      const mouse = new ogl.Vec2(-1);
-      const velocity = new ogl.Vec2();
-      function resize() {
-        let a1, a2;
-        var imageAspect = imgSize[1] / imgSize[0];
-        if (window.innerHeight / window.innerWidth < imageAspect) {
-          a1 = 1;
-          a2 = window.innerHeight / window.innerWidth / imageAspect;
-        } else {
-          a1 = (window.innerWidth / window.innerHeight) * imageAspect;
-          a2 = 1;
-        }
-        mesh.program.uniforms.res.value = new ogl.Vec4(
-          window.innerWidth,
-          window.innerHeight,
-          a1,
-          a2
-        );
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        aspect = window.innerWidth / window.innerHeight;
-      }
-      const flowmap = new ogl.Flowmap(gl, {
-        falloff: 1.0, // size of the stamp, percentage of the size
-        alpha: 0.3, // opacity of the stamp
-        dissipation: 0.94 // affects the speed that the stamp fades. Closer to 1 is slower
-      });
-      // Triangle that includes -1 to 1 range for 'position', and 0 to 1 range for 'uv'.
-      const geometry = new ogl.Geometry(gl, {
-        position: {
-          size: 2,
-          data: new Float32Array([-1, -1, 3, -1, -1, 3])
-        },
-        uv: { size: 2, data: new Float32Array([0, 0, 2, 0, 0, 2]) }
-      });
-      const texture = new ogl.Texture(gl, {
-        minFilter: gl.LINEAR,
-        magFilter: gl.LINEAR
-      });
-      const img = new Image();
-      img.onload = () => (texture.image = img);
-      img.crossOrigin = "Anonymous";
-      img.src = "images/demo2.jpg";
-
-      let a1, a2;
-      var imageAspect = imgSize[1] / imgSize[0];
-      if (window.innerHeight / window.innerWidth < imageAspect) {
-        a1 = 1;
-        a2 = window.innerHeight / window.innerWidth / imageAspect;
-      } else {
-        a1 = (window.innerWidth / window.innerHeight) * imageAspect;
-        a2 = 1;
-      }
-
-      const program = new ogl.Program(gl, {
-        vertex,
-        fragment,
-        uniforms: {
-          uTime: { value: 0 },
-          tWater: { value: texture },
-          res: {
-            value: new ogl.Vec4(window.innerWidth, window.innerHeight, a1, a2)
-          },
-          img: { value: new ogl.Vec2(imgSize[0], imgSize[1]) },
-          // Note that the uniform is applied without using an object and value property
-          // This is because the class alternates this texture between two render targets
-          // and updates the value property after each render.
-          tFlow: flowmap.uniform
-        }
-      });
-      const mesh = new ogl.Mesh(gl, { geometry, program });
-
-      window.addEventListener("resize", resize, false);
-      resize();
-
-      // Create handlers to get mouse position and velocity
-      const isTouchCapable = "ontouchstart" in window;
-      if (isTouchCapable) {
-        hidden1.addEventListener("touchstart", updateMouse, false);
-        hidden1.addEventListener("touchmove", updateMouse, { passive: false });
-      } else {
-        hidden1.addEventListener("mousemove", updateMouse, false);
-      }
-      let lastTime;
-      const lastMouse = new ogl.Vec2();
-      function updateMouse(e) {
-        e.preventDefault();
-        if (e.changedTouches && e.changedTouches.length) {
-          e.x = e.changedTouches[0].pageX;
-          e.y = e.changedTouches[0].pageY;
-        }
-        if (e.x === undefined) {
-          e.x = e.pageX;
-          e.y = e.pageY;
-        }
-        // Get mouse value in 0 to 1 range, with y flipped
-        mouse.set(e.x / gl.renderer.width, 1.0 - e.y / gl.renderer.height);
-        // Calculate velocity
-        if (!lastTime) {
-          // First frame
-          lastTime = performance.now();
-          lastMouse.set(e.x, e.y);
-        }
-
-        const deltaX = e.x - lastMouse.x;
-        const deltaY = e.y - lastMouse.y;
-
-        lastMouse.set(e.x, e.y);
-
-        let time = performance.now();
-
-        // Avoid dividing by 0
-        let delta = Math.max(10.4, time - lastTime);
-        lastTime = time;
-        velocity.x = deltaX / delta;
-        velocity.y = deltaY / delta;
-        // Flag update to prevent hanging velocity values when not moving
-        velocity.needsUpdate = true;
-      }
-      requestAnimationFrame(update);
-      function update(t) {
-        requestAnimationFrame(update);
-        // Reset velocity when mouse not moving
-        if (!velocity.needsUpdate) {
-          mouse.set(-1);
-          velocity.set(0);
-        }
-        velocity.needsUpdate = false;
-        // Update flowmap inputs
-        flowmap.aspect = aspect;
-        flowmap.mouse.copy(mouse);
-        // Ease velocity input, slower when fading out
-        flowmap.velocity.lerp(velocity, velocity.len ? 0.15 : 0.1);
-        flowmap.update();
-        program.uniforms.uTime.value = t * 0.01;
-        renderer.render({ scene: mesh });
-      }
-    }
-  </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
