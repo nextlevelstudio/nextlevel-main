@@ -1,54 +1,31 @@
 //import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/build/three.module.js';
 var body = document.querySelector('body');
 $('.black .overlay').click(function(){
-  var a = this.parentElement.querySelector('.p-info');
-  setSize(this);
-  this.style.background = 'rgba(0,0,0,1)';
-  gsap.to(this, {
-    top: 0,
-    left: 0,
-    duration: 0.5,
-    height: "100vh",
-    width: "50%",
-  });
-  gsap.to(a, {
-    top: 0,
-    duration: 0.5,
-    height: "100vh",
-    transform: "scaleX(1)",
-    transformOrigin: "top left"
-  });
-  setTimeout(() => {
-    addScrollbar(a);
-  }, 500);
+  animate(this, 'black');
 });
 $('.blue .overlay').click(function(){
-  setSize(this);
-  var a = this.parentElement.querySelector('.p-info');
-  this.style.background = 'rgba(0, 203, 255, 1)';
-  gsap.to(this, {
-    top: 0,
-    left: 0,
-    duration: 0.5,
-    height: "100vh",
-    width: "50%",
-  });
-  gsap.to(a, {
-    top: 0,
-    duration: 0.5,
-    height: "100vh",
-    transform: "scaleX(1)",
-    transformOrigin: "top left"
-  });
-  setTimeout(() => {
-    addScrollbar(a);
-  }, 500);
+  animate(this, 'blue');
 });
+
 $('.white .overlay').click(function(){
-  var a = this.parentElement.querySelector('.p-info');
-  setSize(this);
-  this.style.background = 'rgba(255,255,255,1)';
-  gsap.to(this, {
+  animate(this, 'white');
+});
+function animate(e, color) {
+  e.classList.remove('importantOverride');
+  var data = sessionStorage.getItem('elemSize');
+  if (!data) {
+  if (color == 'blue') {
+    e.style.background = 'rgba(0, 203, 255, 1)';
+  }
+  if (color == 'white') {
+    e.style.background = 'rgba(255,255,255,1)';
+  }
+  if (color == 'black') {
+    e.style.background = 'rgba(0,0,0,1)';
+  }
+  setSize(e);
+  var a = e.parentElement.querySelector('.p-info');
+  gsap.to(e, {
     top: 0,
     left: 0,
     duration: 0.5,
@@ -65,24 +42,63 @@ $('.white .overlay').click(function(){
   setTimeout(() => {
     addScrollbar(a);
   }, 500);
-});
+}
+}
 function addScrollbar(a) {
-  console.log(a);
   body.style.overflow = 'hidden';
   a.style.overflow = 'auto';
 }
 function setSize(t) {
+  console.log('setsize');
   var rect = t.getBoundingClientRect();
-  console.log(rect.top, rect.right, rect.bottom, rect.left);
+  var rt = t.getBoundingClientRect();
+  console.log(rect.top);
+  console.log(rt.top);
+  sessionStorage.setItem('elemSize', rect);
+  sessionStorage.setItem('top', rect.top);
+  sessionStorage.setItem('left', rect.left);
+  sessionStorage.setItem('width', rect.width);
+  sessionStorage.setItem('height', rect.height);
   t.style.transition = 'none';
   t.style.position = 'fixed';
   t.style.top = rect.top + 'px';
   t.style.left = rect.left + 'px';
   t.style.width = rect.width + 'px';
   t.style.height = rect.height + 'px';
-  t.style.zIndex = '999';
+  t.style.zIndex = '99';
 }
+$('.close').click(function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  body.style.overflow = 'auto';
+  var a = this.parentElement;
+  var overlay = this.parentElement.parentElement;
+  var top = sessionStorage.getItem('top');
+  var left = sessionStorage.getItem('left');
+  var width = sessionStorage.getItem('width');
+  var height = sessionStorage.getItem('height');
 
+  gsap.to(a, {
+    transform: "scaleX(0)",
+    transformOrigin: "top left"
+  });
+  gsap.to(overlay, {
+    top: top + 'px',
+    left: left + 'px',
+    duration: 0.5,
+    height: height + 'px',
+    width: width + 'px',
+  });
+  setTimeout(() => {
+    overlay.classList.add('importantOverride');
+    sessionStorage.removeItem('elemSize');
+    sessionStorage.removeItem('top');
+    sessionStorage.removeItem('left');
+    sessionStorage.removeItem('width');
+    sessionStorage.removeItem('height');
+  }, 500);
+  
+});
 $( ".white" ).hover(
     function() {
       $('.hidden1').addClass( "hover" );
@@ -90,165 +106,3 @@ $( ".white" ).hover(
       $('.hidden1').removeClass( "hover" );
     }
   );
-  
-
-  // function main() {
-  //   const canvas = document.querySelector('#c');
-  //   const renderer = new THREE.WebGLRenderer({canvas, alpha: true});
-  
-  //   const fov = 75;
-  //   const aspect = 2;  // the canvas default
-  //   const near = 0.1;
-  //   const far = 100;
-  //   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-  //   camera.position.z = 3;
-    
-  //   const scene = new THREE.Scene();
-  
-  //   function addLight(...pos) {
-  //     const color = 0xFFFFFF;
-  //     const intensity = 1;
-  //     const light = new THREE.DirectionalLight(color, intensity);
-  //     light.position.set(...pos);
-  //     scene.add(light);
-  //   }
-  //   addLight(-1, 2, 4);
-  //   addLight( 2, -2, 3);
-  
-  //   function makeSpherePositions(segmentsAround, segmentsDown) {
-  //     const numVertices = segmentsAround * segmentsDown * 6;
-  //     const numComponents = 3;
-  //     const positions = new Float32Array(numVertices * numComponents);
-  //     const indices = [];
-  
-  //     const longHelper = new THREE.Object3D();
-  //     const latHelper = new THREE.Object3D();
-  //     const pointHelper = new THREE.Object3D();
-  //     longHelper.add(latHelper);
-  //     latHelper.add(pointHelper);
-  //     pointHelper.position.z = 1;
-  //     const temp = new THREE.Vector3();
-  
-  //     function getPoint(lat, long) {
-  //       latHelper.rotation.x = lat;
-  //       longHelper.rotation.y = long;
-  //       longHelper.updateMatrixWorld(true);
-  //       return pointHelper.getWorldPosition(temp).toArray();
-  //     }
-  
-  //     let posNdx = 0;
-  //     let ndx = 0;
-  //     for (let down = 0; down < segmentsDown; ++down) {
-  //       const v0 = down / segmentsDown;
-  //       const v1 = (down + 1) / segmentsDown;
-  //       const lat0 = (v0 - 0.5) * Math.PI;
-  //       const lat1 = (v1 - 0.5) * Math.PI;
-  
-  //       for (let across = 0; across < segmentsAround; ++across) {
-  //         const u0 = across / segmentsAround;
-  //         const u1 = (across + 1) / segmentsAround;
-  //         const long0 = u0 * Math.PI * 2;
-  //         const long1 = u1 * Math.PI * 2;
-  
-  //         positions.set(getPoint(lat0, long0), posNdx);  posNdx += numComponents;
-  //         positions.set(getPoint(lat1, long0), posNdx);  posNdx += numComponents;
-  //         positions.set(getPoint(lat0, long1), posNdx);  posNdx += numComponents;
-  //         positions.set(getPoint(lat1, long1), posNdx);  posNdx += numComponents;
-  
-  //         indices.push(
-  //           ndx, ndx + 1, ndx + 2,
-  //           ndx + 2, ndx + 1, ndx + 3,
-  //         );
-  //         ndx += 4;
-  //       }
-  //     }
-  //     return {positions, indices};
-  //   }
-  
-  //   const segmentsAround = 24;
-  //   const segmentsDown = 16;
-  //   const {positions, indices} = makeSpherePositions(segmentsAround, segmentsDown);
-  
-  //   const normals = positions.slice();
-  
-  //   const geometry = new THREE.BufferGeometry();
-  //   const positionNumComponents = 3;
-  //   const normalNumComponents = 3;
-  
-  //   const positionAttribute = new THREE.BufferAttribute(positions, positionNumComponents);
-  //   positionAttribute.setUsage(THREE.DynamicDrawUsage);
-  //   geometry.setAttribute(
-  //       'position',
-  //       positionAttribute);
-  //   geometry.setAttribute(
-  //       'normal',
-  //       new THREE.BufferAttribute(normals, normalNumComponents));
-  //   geometry.setIndex(indices);
-  
-  //   function makeInstance(geometry, color, x) {
-  //     const material = new THREE.MeshPhongMaterial({
-  //       color,
-  //       side: THREE.DoubleSide,
-  //       shininess: 100,
-  //     });
-  
-  //     const cube = new THREE.Mesh(geometry, material);
-  //     scene.add(cube);
-  
-  //     cube.position.x = x;
-  //     return cube;
-  //   }
-  
-  //   const cubes = [
-  //     makeInstance(geometry, 0x2fa9de, 0),
-  //   ];
-  
-  //   function resizeRendererToDisplaySize(renderer) {
-  //     const canvas = renderer.domElement;
-  //     const width = canvas.clientWidth;
-  //     const height = canvas.clientHeight;
-  //     const needResize = canvas.width !== width || canvas.height !== height;
-  //     if (needResize) {
-  //       renderer.setSize(width, height, false);
-  //     }
-  //     return needResize;
-  //   }
-  
-  //   const temp = new THREE.Vector3();
-  
-  //   function render(time) {
-  //     time *= 0.001;
-  
-  //     if (resizeRendererToDisplaySize(renderer)) {
-  //       const canvas = renderer.domElement;
-  //       camera.aspect = canvas.clientWidth / canvas.clientHeight;
-  //       camera.updateProjectionMatrix();
-  //     }
-  
-  //     for (let i = 0; i < positions.length; i += 3) {
-  //       const quad = (i / 12 | 0);
-  //       const ringId = quad / segmentsAround | 0;
-  //       const ringQuadId = quad % segmentsAround;
-  //       const ringU = ringQuadId / segmentsAround;
-  //       const angle = ringU * Math.PI * 2;
-  //       temp.fromArray(normals, i);
-  //       temp.multiplyScalar(THREE.MathUtils.lerp(1, 1.4, Math.sin(time + ringId + angle) * .5 + .5));
-  //       temp.toArray(positions, i);
-  //     }
-  //     positionAttribute.needsUpdate = true;
-  
-  //     cubes.forEach((cube, ndx) => {
-  //       const speed = -0.2 + ndx * .1;
-  //       const rot = time * speed;
-  //       cube.rotation.y = rot;
-  //     });
-  
-  //     renderer.render(scene, camera);
-  
-  //     requestAnimationFrame(render);
-  //   }
-  
-  //   requestAnimationFrame(render);
-  // }
-  
-  // main();
