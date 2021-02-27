@@ -1,422 +1,87 @@
-
+//import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/build/three.module.js';
+var body = document.querySelector('body');
 $('.black .overlay').click(function(){
-    console.log(this);
-    this.style.transition = 'all 2s ease';
-    
-    this.style.height = '100vh';
-    this.style.width = '50vw';
-    this.style.opacity = '1';
-    this.style.position = 'fixed';
-    this.style.background = 'rgba(0,0,0,1)';
-    this.style.zIndex = '999';
+  var a = this.parentElement.querySelector('.p-info');
+  setSize(this);
+  this.style.background = 'rgba(0,0,0,1)';
+  gsap.to(this, {
+    top: 0,
+    left: 0,
+    duration: 0.5,
+    height: "100vh",
+    width: "50%",
+  });
+  gsap.to(a, {
+    top: 0,
+    duration: 0.5,
+    height: "100vh",
+    transform: "scaleX(1)",
+    transformOrigin: "top left"
+  });
+  setTimeout(() => {
+    addScrollbar(a);
+  }, 500);
 });
 $('.blue .overlay').click(function(){
-    console.log(this);
-    this.style.transition = 'all 2s ease';
-    
-    this.style.height = '100vh';
-    this.style.width = '50vw';
-    this.style.position = 'fixed';
-    this.style.opacity = '1';
-    this.style.background = 'rgba(0,203,255,1)';
-    this.style.zIndex = '999';
+  setSize(this);
+  var a = this.parentElement.querySelector('.p-info');
+  this.style.background = 'rgba(0, 203, 255, 1)';
+  gsap.to(this, {
+    top: 0,
+    left: 0,
+    duration: 0.5,
+    height: "100vh",
+    width: "50%",
+  });
+  gsap.to(a, {
+    top: 0,
+    duration: 0.5,
+    height: "100vh",
+    transform: "scaleX(1)",
+    transformOrigin: "top left"
+  });
+  setTimeout(() => {
+    addScrollbar(a);
+  }, 500);
 });
 $('.white .overlay').click(function(){
-    console.log(this);
-    this.style.transition = 'all 2s ease';
-    
-    this.style.height = '100vh';
-    this.style.width = '50vw';
-    this.style.opacity = '1';
-    this.style.position = 'fixed';
-    this.style.background = 'rgba(255,255,255,1)';
-    this.style.zIndex = '999';
+  var a = this.parentElement.querySelector('.p-info');
+  setSize(this);
+  this.style.background = 'rgba(255,255,255,1)';
+  gsap.to(this, {
+    top: 0,
+    left: 0,
+    duration: 0.5,
+    height: "100vh",
+    width: "50%",
+  });
+  gsap.to(a, {
+    top: 0,
+    duration: 0.5,
+    height: "100vh",
+    transform: "scaleX(1)",
+    transformOrigin: "top left"
+  });
+  setTimeout(() => {
+    addScrollbar(a);
+  }, 500);
 });
-
-function loadHidden1() {
-const imgSize = [200, 300];
-
-const vertex = `
-                attribute vec2 uv;
-                attribute vec2 position;
-                varying vec2 vUv;
-                void main() {
-                        vUv = uv;
-                        gl_Position = vec4(position, 0, 1);
-                }
-        `;
-const fragment = `
-                precision highp float;
-                precision highp int;
-                uniform sampler2D tWater;
-                uniform sampler2D tFlow;
-                uniform float uTime;
-                varying vec2 vUv;
-                uniform vec4 res;
-
-                void main() {
-
-                        // R and G values are velocity in the x and y direction
-                        // B value is the velocity length
-                        vec3 flow = texture2D(tFlow, vUv).rgb;
-
-                        vec2 uv = .5 * gl_FragCoord.xy / res.xy ;
-                        vec2 myUV = (uv - vec2(0.5))*res.zw + vec2(0.5);
-                        myUV -= flow.xy * (0.15 * 0.7);
-
-                        vec2 myUV2 = (uv - vec2(0.5))*res.zw + vec2(0.5);
-                        myUV2 -= flow.xy * (0.125 * 0.7);
-
-                        vec2 myUV3 = (uv - vec2(0.5))*res.zw + vec2(0.5);
-                        myUV3 -= flow.xy * (0.10 * 0.7);
-
-                        vec3 tex = texture2D(tWater, myUV).rgb;
-                        vec3 tex2 = texture2D(tWater, myUV2).rgb;
-                        vec3 tex3 = texture2D(tWater, myUV3).rgb;
-
-          gl_FragColor = vec4(tex.r, tex2.g, tex3.b, 1.0);
-                }
-        `;
-{
-  const renderer = new ogl.Renderer({ dpr: 2 });
-  const gl = renderer.gl;
-  const hidden1 = document.querySelector('.hidden1');
-  hidden1.appendChild(gl.canvas);
-
-  // Variable inputs to control flowmap
-  let aspect = 1;
-  const mouse = new ogl.Vec2(-1);
-  const velocity = new ogl.Vec2();
-  function resize() {
-    let a1, a2;
-    var imageAspect = imgSize[1] / imgSize[0];
-    if (window.innerHeight / window.innerWidth < imageAspect) {
-      a1 = 1;
-      a2 = window.innerHeight / window.innerWidth / imageAspect;
-    } else {
-      a1 = (window.innerWidth / window.innerHeight) * imageAspect;
-      a2 = 1;
-    }
-    mesh.program.uniforms.res.value = new ogl.Vec4(
-      window.innerWidth,
-      window.innerHeight,
-      a1,
-      a2
-    );
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    aspect = window.innerWidth / window.innerHeight;
-  }
-  const flowmap = new ogl.Flowmap(gl, {
-    falloff: 1.0, // size of the stamp, percentage of the size
-    alpha: 0.3, // opacity of the stamp
-    dissipation: 0.94 // affects the speed that the stamp fades. Closer to 1 is slower
-  });
-  // Triangle that includes -1 to 1 range for 'position', and 0 to 1 range for 'uv'.
-  const geometry = new ogl.Geometry(gl, {
-    position: {
-      size: 2,
-      data: new Float32Array([-1, -1, 3, -1, -1, 3])
-    },
-    uv: { size: 2, data: new Float32Array([1, 0, 2, 1, 0, 2]) }
-  });
-  const texture = new ogl.Texture(gl, {
-    minFilter: gl.LINEAR,
-    magFilter: gl.LINEAR
-  });
-  const img = new Image();
-  img.onload = () => (texture.image = img);
-  img.crossOrigin = "Anonymous";
-  img.src = "images/abstract3.jpg";
-
-  let a1, a2;
-  var imageAspect = imgSize[1] / imgSize[0];
-  if (window.innerHeight / window.innerWidth < imageAspect) {
-    a1 = 1;
-    a2 = window.innerHeight / window.innerWidth / imageAspect;
-  } else {
-    a1 = (window.innerWidth / window.innerHeight) * imageAspect;
-    a2 = 1;
-  }
-  
-  const program = new ogl.Program(gl, {
-    vertex,
-    fragment,
-    uniforms: {
-      uTime: { value: 0 },
-      tWater: { value: texture },
-      res: {
-        value: new ogl.Vec4(window.innerWidth, window.innerHeight, a1, a2)
-      },
-      img: { value: new ogl.Vec2(imgSize[0], imgSize[1]) },
-      // Note that the uniform is applied without using an object and value property
-      // This is because the class alternates this texture between two render targets
-      // and updates the value property after each render.
-      tFlow: flowmap.uniform
-    }
-  });
-  const mesh = new ogl.Mesh(gl, { geometry, program });
-
-  window.addEventListener("resize", resize, false);
-  resize();
-
-  // Create handlers to get mouse position and velocity
-  const isTouchCapable = "ontouchstart" in window;
-  if (isTouchCapable) {
-    window.addEventListener("touchstart", updateMouse, false);
-    window.addEventListener("touchmove", updateMouse, { passive: false });
-  } else {
-    window.addEventListener("mousemove", updateMouse, false);
-  }
-  let lastTime;
-  const lastMouse = new ogl.Vec2();
-  function updateMouse(e) {
-    e.preventDefault();
-    if (e.changedTouches && e.changedTouches.length) {
-      e.x = e.changedTouches[0].pageX;
-      e.y = e.changedTouches[0].pageY;
-    }
-    if (e.x === undefined) {
-      e.x = e.pageX;
-      e.y = e.pageY;
-    }
-    // Get mouse value in 0 to 1 range, with y flipped
-    mouse.set(e.x / gl.renderer.width, 1.0 - e.y / gl.renderer.height);
-    // Calculate velocity
-    if (!lastTime) {
-      // First frame
-      lastTime = performance.now();
-      lastMouse.set(e.x, e.y);
-    }
-
-    const deltaX = e.x - lastMouse.x;
-    const deltaY = e.y - lastMouse.y;
-
-    lastMouse.set(e.x, e.y);
-
-    let time = performance.now();
-
-    // Avoid dividing by 0
-    let delta = Math.max(10.4, time - lastTime);
-    lastTime = time;
-    velocity.x = deltaX / delta;
-    velocity.y = deltaY / delta;
-    // Flag update to prevent hanging velocity values when not moving
-    velocity.needsUpdate = true;
-  }
-  requestAnimationFrame(update);
-  function update(t) {
-    requestAnimationFrame(update);
-    // Reset velocity when mouse not moving
-    if (!velocity.needsUpdate) {
-      mouse.set(-1);
-      velocity.set(0);
-    }
-    velocity.needsUpdate = false;
-    // Update flowmap inputs
-    flowmap.aspect = aspect;
-    flowmap.mouse.copy(mouse);
-    // Ease velocity input, slower when fading out
-    flowmap.velocity.lerp(velocity, velocity.len ? 0.15 : 0.1);
-    flowmap.update();
-    program.uniforms.uTime.value = t * 0.01;
-    renderer.render({ scene: mesh });
-  }
+function addScrollbar(a) {
+  console.log(a);
+  body.style.overflow = 'hidden';
+  a.style.overflow = 'auto';
 }
+function setSize(t) {
+  var rect = t.getBoundingClientRect();
+  console.log(rect.top, rect.right, rect.bottom, rect.left);
+  t.style.transition = 'none';
+  t.style.position = 'fixed';
+  t.style.top = rect.top + 'px';
+  t.style.left = rect.left + 'px';
+  t.style.width = rect.width + 'px';
+  t.style.height = rect.height + 'px';
+  t.style.zIndex = '999';
 }
-function loadHidden2() {
-    const imgSize = [200, 150];
-    
-    const vertex = `
-                    attribute vec2 uv;
-                    attribute vec2 position;
-                    varying vec2 vUv;
-                    void main() {
-                            vUv = uv;
-                            gl_Position = vec4(position, 0, 1);
-                    }
-            `;
-    const fragment = `
-                    precision highp float;
-                    precision highp int;
-                    uniform sampler2D tWater;
-                    uniform sampler2D tFlow;
-                    uniform float uTime;
-                    varying vec2 vUv;
-                    uniform vec4 res;
-    
-                    void main() {
-    
-                            // R and G values are velocity in the x and y direction
-                            // B value is the velocity length
-                            vec3 flow = texture2D(tFlow, vUv).rgb;
-    
-                            vec2 uv = .5 * gl_FragCoord.xy / res.xy ;
-                            vec2 myUV = (uv - vec2(0.5))*res.zw + vec2(0.5);
-                            myUV -= flow.xy * (0.15 * 0.7);
-    
-                            vec2 myUV2 = (uv - vec2(0.5))*res.zw + vec2(0.5);
-                            myUV2 -= flow.xy * (0.125 * 0.7);
-    
-                            vec2 myUV3 = (uv - vec2(0.5))*res.zw + vec2(0.5);
-                            myUV3 -= flow.xy * (0.10 * 0.7);
-    
-                            vec3 tex = texture2D(tWater, myUV).rgb;
-                            vec3 tex2 = texture2D(tWater, myUV2).rgb;
-                            vec3 tex3 = texture2D(tWater, myUV3).rgb;
-    
-              gl_FragColor = vec4(tex.r, tex2.g, tex3.b, 1.0);
-                    }
-            `;
-    {
-      const renderer = new ogl.Renderer({ dpr: 2 });
-      const gl = renderer.gl;
-      const hidden1 = document.querySelector('.top');
-      hidden1.appendChild(gl.canvas);
-    
-      // Variable inputs to control flowmap
-      let aspect = 1;
-      const mouse = new ogl.Vec2(-1);
-      const velocity = new ogl.Vec2();
-      function resize() {
-        let a1, a2;
-        var imageAspect = imgSize[1] / imgSize[0];
-        if (window.innerHeight / window.innerWidth < imageAspect) {
-          a1 = 1;
-          a2 = window.innerHeight / window.innerWidth / imageAspect;
-        } else {
-          a1 = (window.innerWidth / window.innerHeight) * imageAspect;
-          a2 = 1;
-        }
-        mesh.program.uniforms.res.value = new ogl.Vec4(
-          window.innerWidth,
-          window.innerHeight,
-          a1,
-          a2
-        );
-    
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        aspect = window.innerWidth / window.innerHeight;
-      }
-      const flowmap = new ogl.Flowmap(gl, {
-        falloff: 1.0, // size of the stamp, percentage of the size
-        alpha: 0.3, // opacity of the stamp
-        dissipation: 0.94 // affects the speed that the stamp fades. Closer to 1 is slower
-      });
-      // Triangle that includes -1 to 1 range for 'position', and 0 to 1 range for 'uv'.
-      const geometry = new ogl.Geometry(gl, {
-        position: {
-          size: 2,
-          data: new Float32Array([-1, -1, 3, -1, -1, 3])
-        },
-        uv: { size: 2, data: new Float32Array([1, 0, 0, 2, -2, -1]) }
-      });
-      const texture = new ogl.Texture(gl, {
-        minFilter: gl.LINEAR,
-        magFilter: gl.LINEAR
-      });
-      const img = new Image();
-      img.onload = () => (texture.image = img);
-      img.crossOrigin = "Anonymous";
-      img.src = "images/abstract3.jpg";
-    
-      let a1, a2;
-      var imageAspect = imgSize[1] / imgSize[0];
-      if (window.innerHeight / window.innerWidth < imageAspect) {
-        a1 = 1;
-        a2 = window.innerHeight / window.innerWidth / imageAspect;
-      } else {
-        a1 = (window.innerWidth / window.innerHeight) * imageAspect;
-        a2 = 1;
-      }
-      
-      const program = new ogl.Program(gl, {
-        vertex,
-        fragment,
-        uniforms: {
-          uTime: { value: 0 },
-          tWater: { value: texture },
-          res: {
-            value: new ogl.Vec4(window.innerWidth, window.innerHeight, a1, a2)
-          },
-          img: { value: new ogl.Vec2(imgSize[0], imgSize[1]) },
-          // Note that the uniform is applied without using an object and value property
-          // This is because the class alternates this texture between two render targets
-          // and updates the value property after each render.
-          tFlow: flowmap.uniform
-        }
-      });
-      const mesh = new ogl.Mesh(gl, { geometry, program });
-    
-      window.addEventListener("resize", resize, false);
-      resize();
-    
-      // Create handlers to get mouse position and velocity
-      const isTouchCapable = "ontouchstart" in window;
-      if (isTouchCapable) {
-        window.addEventListener("touchstart", updateMouse, false);
-        window.addEventListener("touchmove", updateMouse, { passive: false });
-      } else {
-        window.addEventListener("mousemove", updateMouse, false);
-      }
-      let lastTime;
-      const lastMouse = new ogl.Vec2();
-      function updateMouse(e) {
-        e.preventDefault();
-        if (e.changedTouches && e.changedTouches.length) {
-          e.x = e.changedTouches[0].pageX;
-          e.y = e.changedTouches[0].pageY;
-        }
-        if (e.x === undefined) {
-          e.x = e.pageX;
-          e.y = e.pageY;
-        }
-        // Get mouse value in 0 to 1 range, with y flipped
-        mouse.set(e.x / gl.renderer.width, 1.0 - e.y / gl.renderer.height);
-        // Calculate velocity
-        if (!lastTime) {
-          // First frame
-          lastTime = performance.now();
-          lastMouse.set(e.x, e.y);
-        }
-    
-        const deltaX = e.x - lastMouse.x;
-        const deltaY = e.y - lastMouse.y;
-    
-        lastMouse.set(e.x, e.y);
-    
-        let time = performance.now();
-    
-        // Avoid dividing by 0
-        let delta = Math.max(10.4, time - lastTime);
-        lastTime = time;
-        velocity.x = deltaX / delta;
-        velocity.y = deltaY / delta;
-        // Flag update to prevent hanging velocity values when not moving
-        velocity.needsUpdate = true;
-      }
-      requestAnimationFrame(update);
-      function update(t) {
-        requestAnimationFrame(update);
-        // Reset velocity when mouse not moving
-        if (!velocity.needsUpdate) {
-          mouse.set(-1);
-          velocity.set(0);
-        }
-        velocity.needsUpdate = false;
-        // Update flowmap inputs
-        flowmap.aspect = aspect;
-        flowmap.mouse.copy(mouse);
-        // Ease velocity input, slower when fading out
-        flowmap.velocity.lerp(velocity, velocity.len ? 0.15 : 0.1);
-        flowmap.update();
-        program.uniforms.uTime.value = t * 0.01;
-        renderer.render({ scene: mesh });
-      }
-    }
-    }
-loadHidden1();
-loadHidden2();
 
 $( ".white" ).hover(
     function() {
@@ -425,3 +90,165 @@ $( ".white" ).hover(
       $('.hidden1').removeClass( "hover" );
     }
   );
+  
+
+  // function main() {
+  //   const canvas = document.querySelector('#c');
+  //   const renderer = new THREE.WebGLRenderer({canvas, alpha: true});
+  
+  //   const fov = 75;
+  //   const aspect = 2;  // the canvas default
+  //   const near = 0.1;
+  //   const far = 100;
+  //   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+  //   camera.position.z = 3;
+    
+  //   const scene = new THREE.Scene();
+  
+  //   function addLight(...pos) {
+  //     const color = 0xFFFFFF;
+  //     const intensity = 1;
+  //     const light = new THREE.DirectionalLight(color, intensity);
+  //     light.position.set(...pos);
+  //     scene.add(light);
+  //   }
+  //   addLight(-1, 2, 4);
+  //   addLight( 2, -2, 3);
+  
+  //   function makeSpherePositions(segmentsAround, segmentsDown) {
+  //     const numVertices = segmentsAround * segmentsDown * 6;
+  //     const numComponents = 3;
+  //     const positions = new Float32Array(numVertices * numComponents);
+  //     const indices = [];
+  
+  //     const longHelper = new THREE.Object3D();
+  //     const latHelper = new THREE.Object3D();
+  //     const pointHelper = new THREE.Object3D();
+  //     longHelper.add(latHelper);
+  //     latHelper.add(pointHelper);
+  //     pointHelper.position.z = 1;
+  //     const temp = new THREE.Vector3();
+  
+  //     function getPoint(lat, long) {
+  //       latHelper.rotation.x = lat;
+  //       longHelper.rotation.y = long;
+  //       longHelper.updateMatrixWorld(true);
+  //       return pointHelper.getWorldPosition(temp).toArray();
+  //     }
+  
+  //     let posNdx = 0;
+  //     let ndx = 0;
+  //     for (let down = 0; down < segmentsDown; ++down) {
+  //       const v0 = down / segmentsDown;
+  //       const v1 = (down + 1) / segmentsDown;
+  //       const lat0 = (v0 - 0.5) * Math.PI;
+  //       const lat1 = (v1 - 0.5) * Math.PI;
+  
+  //       for (let across = 0; across < segmentsAround; ++across) {
+  //         const u0 = across / segmentsAround;
+  //         const u1 = (across + 1) / segmentsAround;
+  //         const long0 = u0 * Math.PI * 2;
+  //         const long1 = u1 * Math.PI * 2;
+  
+  //         positions.set(getPoint(lat0, long0), posNdx);  posNdx += numComponents;
+  //         positions.set(getPoint(lat1, long0), posNdx);  posNdx += numComponents;
+  //         positions.set(getPoint(lat0, long1), posNdx);  posNdx += numComponents;
+  //         positions.set(getPoint(lat1, long1), posNdx);  posNdx += numComponents;
+  
+  //         indices.push(
+  //           ndx, ndx + 1, ndx + 2,
+  //           ndx + 2, ndx + 1, ndx + 3,
+  //         );
+  //         ndx += 4;
+  //       }
+  //     }
+  //     return {positions, indices};
+  //   }
+  
+  //   const segmentsAround = 24;
+  //   const segmentsDown = 16;
+  //   const {positions, indices} = makeSpherePositions(segmentsAround, segmentsDown);
+  
+  //   const normals = positions.slice();
+  
+  //   const geometry = new THREE.BufferGeometry();
+  //   const positionNumComponents = 3;
+  //   const normalNumComponents = 3;
+  
+  //   const positionAttribute = new THREE.BufferAttribute(positions, positionNumComponents);
+  //   positionAttribute.setUsage(THREE.DynamicDrawUsage);
+  //   geometry.setAttribute(
+  //       'position',
+  //       positionAttribute);
+  //   geometry.setAttribute(
+  //       'normal',
+  //       new THREE.BufferAttribute(normals, normalNumComponents));
+  //   geometry.setIndex(indices);
+  
+  //   function makeInstance(geometry, color, x) {
+  //     const material = new THREE.MeshPhongMaterial({
+  //       color,
+  //       side: THREE.DoubleSide,
+  //       shininess: 100,
+  //     });
+  
+  //     const cube = new THREE.Mesh(geometry, material);
+  //     scene.add(cube);
+  
+  //     cube.position.x = x;
+  //     return cube;
+  //   }
+  
+  //   const cubes = [
+  //     makeInstance(geometry, 0x2fa9de, 0),
+  //   ];
+  
+  //   function resizeRendererToDisplaySize(renderer) {
+  //     const canvas = renderer.domElement;
+  //     const width = canvas.clientWidth;
+  //     const height = canvas.clientHeight;
+  //     const needResize = canvas.width !== width || canvas.height !== height;
+  //     if (needResize) {
+  //       renderer.setSize(width, height, false);
+  //     }
+  //     return needResize;
+  //   }
+  
+  //   const temp = new THREE.Vector3();
+  
+  //   function render(time) {
+  //     time *= 0.001;
+  
+  //     if (resizeRendererToDisplaySize(renderer)) {
+  //       const canvas = renderer.domElement;
+  //       camera.aspect = canvas.clientWidth / canvas.clientHeight;
+  //       camera.updateProjectionMatrix();
+  //     }
+  
+  //     for (let i = 0; i < positions.length; i += 3) {
+  //       const quad = (i / 12 | 0);
+  //       const ringId = quad / segmentsAround | 0;
+  //       const ringQuadId = quad % segmentsAround;
+  //       const ringU = ringQuadId / segmentsAround;
+  //       const angle = ringU * Math.PI * 2;
+  //       temp.fromArray(normals, i);
+  //       temp.multiplyScalar(THREE.MathUtils.lerp(1, 1.4, Math.sin(time + ringId + angle) * .5 + .5));
+  //       temp.toArray(positions, i);
+  //     }
+  //     positionAttribute.needsUpdate = true;
+  
+  //     cubes.forEach((cube, ndx) => {
+  //       const speed = -0.2 + ndx * .1;
+  //       const rot = time * speed;
+  //       cube.rotation.y = rot;
+  //     });
+  
+  //     renderer.render(scene, camera);
+  
+  //     requestAnimationFrame(render);
+  //   }
+  
+  //   requestAnimationFrame(render);
+  // }
+  
+  // main();
